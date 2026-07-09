@@ -5,7 +5,7 @@ import { Context as UserContext } from '../../Context/UserContext';
 const AccountDetails: React.FC = () => {
   const userContext = useContext(UserContext);
 
-  // Estados locales para manejar los campos del formulario
+  // 1. Declaración de Estados Locales (Siempre arriba)
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -15,7 +15,7 @@ const AccountDetails: React.FC = () => {
   const currentUser = userContext?.currentUser;
   const updateCurrentUser = userContext?.updateCurrentUser;
 
-  // Cargar los datos del usuario actual cuando el componente se monte
+  // 2. Declaración del useEffect (Siempre antes de cualquier "return")
   useEffect(() => {
     if (currentUser) {
       setFirstName(currentUser.firstName);
@@ -26,16 +26,24 @@ const AccountDetails: React.FC = () => {
     }
   }, [currentUser]);
 
+  // 3. Validación de Contexto / Early Returns (Después de todos los Hooks)
+  if (!userContext || !updateCurrentUser) {
+    return null;
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!currentUser || !updateCurrentUser) {
+    // Validamos que exista un usuario antes de proceder
+    if (!currentUser) {
+      alert("No hay una sesión de usuario activa.");
       return;
     }
 
-    // Creamos el objeto actualizado manteniendo el ID y password anteriores
     const updatedUser = {
-      ...currentUser,
+      // Forzamos los valores de respaldo para que nunca sean undefined
+      userId: currentUser.userId ?? 0,
+      password: currentUser.password ?? '',
       firstName,
       lastName,
       email,
@@ -43,13 +51,10 @@ const AccountDetails: React.FC = () => {
       address,
     };
 
-    // Actualizamos el estado global en el contexto
     updateCurrentUser(updatedUser);
-    alert('¡Información de la cuenta actualizada con éxito!');
+    alert('¡Los datos de tu cuenta se han actualizado correctamente!');
   };
-
-  if (!userContext) return null;
-
+  
   return (
     <Container>
       <Title>Detalles de la Cuenta</Title>
@@ -113,8 +118,7 @@ const AccountDetails: React.FC = () => {
 
 export default AccountDetails;
 
-// --- COMPONENTES ESTILIZADOS (Styled Components) ---
-
+// --- COMPONENTES ESTILIZADOS ---
 const Container = styled.div`
   max-width: 600px;
   margin: 40px auto;
@@ -142,7 +146,6 @@ const Form = styled.form`
 const Row = styled.div`
   display: flex;
   gap: 20px;
-
   @media (max-width: 600px) {
     flex-direction: column;
     gap: 20px;
@@ -169,7 +172,6 @@ const Input = styled.input`
   border-radius: 4px;
   outline: none;
   transition: border-color 0.2s;
-
   &:focus {
     border-color: #1a237e;
   }
@@ -186,7 +188,6 @@ const SubmitButton = styled.button`
   cursor: pointer;
   margin-top: 10px;
   transition: background-color 0.2s;
-
   &:hover {
     background-color: #283593;
   }
