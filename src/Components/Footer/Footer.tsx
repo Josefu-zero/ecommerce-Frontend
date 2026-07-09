@@ -6,7 +6,7 @@ import {
   Twitter, 
   Room, 
   Phone, 
-  MailOutline 
+  MailOutlined 
 } from '@mui/icons-material';
 
 const Footer: React.FC = () => {
@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
           <Phone style={{ marginRight: "10px" }} /> +593 99 999 9999
         </ContactItem>
         <ContactItem>
-          <MailOutline style={{ marginRight: "10px" }} /> soporte@myecommerce.com
+          <MailOutlined style={{ marginRight: "10px" }} /> soporte@myecommerce.com
         </ContactItem>
         <Payment src="https://i.ibb.co/Qfvn4z6/payment.png" alt="Métodos de pago" />
       </Right>
