@@ -1,13 +1,15 @@
 import React from 'react';
 import Navbar from './Navbar/Navbar';
+import Announcement from './Announcement/Announcement';
+import Slider from './Slider/Slider';
 
 const Home: React.FC = () => {
   return (
-    <div>
+    <div style={styles.container}>
+      <Announcement />
       <Navbar />
-      <div style={styles.container}>
-        {/* Aquí se renderizarán el resto de componentes */}
-      </div>
+      <Slider />
+      {/* Las demás secciones como la cuadrícula de productos irán debajo */}
     </div>
   );
 };
@@ -15,9 +17,8 @@ const Home: React.FC = () => {
 const styles = {
   container: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '100vh',
+    flexDirection: 'column' as const, // Forzar apilamiento vertical
+    minHeight: '100vh',
   },
 };
 
