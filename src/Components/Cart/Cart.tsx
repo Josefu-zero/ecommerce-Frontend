@@ -173,11 +173,12 @@ const AmountText = styled.span`
   text-align: center;
 `;
 
+
 const SubtotalItem = styled.div`
   font-size: 16px;
   font-weight: bold;
   color: #333333;
-  min-width: 8 investigador0px;
+  min-width: 80px; /* <--- Corregido */
   text-align: right;
 `;
 
